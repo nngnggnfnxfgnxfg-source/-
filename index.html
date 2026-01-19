@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HighlightCut — клипы для YouTube Shorts</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">AI-помощник для монтажёра</p>
+          <h1>HighlightCut</h1>
+          <p class="subtitle">
+            Загружайте фильм, выбирайте стиль и получайте подборку самых интересных
+            моментов, готовых для YouTube Shorts.
+          </p>
+          <div class="hero-actions">
+            <button class="primary" type="button" id="demo-button">Показать демо</button>
+            <button class="ghost" type="button">Как это работает</button>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h2>Быстрый старт</h2>
+          <p>Импортируйте видео и укажите, что считать «интересным».</p>
+          <ul>
+            <li>Экшн, юмор или сильные эмоции</li>
+            <li>Длина клипа: 10–60 секунд</li>
+            <li>Авто-кадры + субтитры</li>
+          </ul>
+          <button class="secondary" type="button">Загрузить видео</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="panel">
+          <h2>Настройка клипов</h2>
+          <form class="settings">
+            <label>
+              Источник
+              <input type="file" accept="video/*" />
+            </label>
+            <label>
+              Стиль монтажа
+              <select>
+                <option>Динамичный экшн</option>
+                <option>Комедийные моменты</option>
+                <option>Сильные эмоции</option>
+                <option>Сюжетные повороты</option>
+              </select>
+            </label>
+            <label>
+              Длина клипа (сек)
+              <input type="range" min="10" max="60" value="30" />
+            </label>
+            <label class="toggle">
+              <input type="checkbox" checked />
+              Авто-субтитры
+            </label>
+            <button type="button" class="primary" id="generate">Сгенерировать подборку</button>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Рекомендованные моменты</h2>
+            <span class="badge" id="highlight-count">0 клипов</span>
+          </div>
+          <div class="highlights" id="highlights"></div>
+        </section>
+      </main>
+
+      <section class="workflow">
+        <h2>Как HighlightCut выделяет лучшие моменты</h2>
+        <div class="workflow-grid">
+          <div>
+            <h3>1. Анализ эмоций</h3>
+            <p>Сканируем диалоги и реакцию персонажей, ищем пики эмоций.</p>
+          </div>
+          <div>
+            <h3>2. Поиск экшн-сцен</h3>
+            <p>Определяем резкие смены кадров, звуковые всплески и динамику.</p>
+          </div>
+          <div>
+            <h3>3. Формат Shorts</h3>
+            <p>Автокадрирование под 9:16, тайминг и CTA для вовлечения.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>Демо-версия. Итоговое видео требует ручного подтверждения.</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
