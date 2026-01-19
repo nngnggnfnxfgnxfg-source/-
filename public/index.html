@@ -4,7 +4,305 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>HighlightCut — клипы для YouTube Shorts</title>
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b0b12;
+        --panel: #141422;
+        --muted: #a3a3c2;
+        --accent: #7c5cff;
+        --accent-soft: rgba(124, 92, 255, 0.2);
+        --border: rgba(255, 255, 255, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+
+      body {
+        background: radial-gradient(circle at top, #1e1e36 0%, var(--bg) 45%);
+        color: #f5f5ff;
+        min-height: 100vh;
+      }
+
+      .page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 24px 60px;
+        display: grid;
+        gap: 32px;
+      }
+
+      .hero {
+        display: grid;
+        gap: 32px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        align-items: center;
+      }
+
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        margin-bottom: 16px;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 1.05rem;
+        margin-bottom: 24px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        border: none;
+        cursor: pointer;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      }
+
+      .primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .secondary {
+        background: #fff;
+        color: #141422;
+      }
+
+      .ghost {
+        background: transparent;
+        color: #fff;
+        border: 1px solid var(--border);
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+      }
+
+      .hero-card {
+        box-shadow: 0 24px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .hero-card ul {
+        margin: 16px 0 24px 16px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .content {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+
+      .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .badge {
+        background: var(--accent-soft);
+        color: #d6ccff;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+      }
+
+      .settings {
+        display: grid;
+        gap: 16px;
+      }
+
+      label {
+        display: grid;
+        gap: 8px;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .range-output {
+        color: #fff;
+        font-size: 0.9rem;
+      }
+
+      input[type="file"],
+      select,
+      input[type="range"] {
+        background: #0f0f1a;
+        color: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px;
+      }
+
+      .toggle {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .highlights {
+        display: grid;
+        gap: 16px;
+      }
+
+      .highlight-card {
+        background: #0f0f1a;
+        border-radius: 16px;
+        padding: 16px;
+        border: 1px solid var(--border);
+        display: grid;
+        gap: 8px;
+      }
+
+      .highlight-card span {
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .preview {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        align-items: center;
+      }
+
+      .preview-copy p {
+        color: var(--muted);
+        line-height: 1.6;
+        margin: 16px 0 20px;
+      }
+
+      .preview-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .preview-tags span {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+      }
+
+      .preview-frame {
+        display: grid;
+        gap: 12px;
+      }
+
+      .preview-video {
+        aspect-ratio: 9 / 16;
+        background: linear-gradient(160deg, #1b1b2f, #0b0b12);
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        padding: 20px;
+      }
+
+      .preview-video p {
+        color: var(--muted);
+        z-index: 1;
+      }
+
+      .pulse {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(124, 92, 255, 0.2);
+        position: absolute;
+        animation: pulse 2s infinite;
+      }
+
+      .preview-meta {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .workflow {
+        display: grid;
+        gap: 24px;
+      }
+
+      .workflow-grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      footer {
+        text-align: center;
+        color: var(--muted);
+      }
+
+      @media (max-width: 720px) {
+        .hero-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        button {
+          width: 100%;
+        }
+
+        .preview-meta {
+          flex-direction: column;
+          gap: 6px;
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.85);
+          opacity: 0.4;
+        }
+        50% {
+          transform: scale(1);
+          opacity: 0.7;
+        }
+        100% {
+          transform: scale(0.85);
+          opacity: 0.4;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="page">
@@ -21,7 +319,7 @@
             <button class="ghost" type="button">Как это работает</button>
           </div>
         </div>
-        <div class="hero-card">
+        <div class="panel hero-card">
           <h2>Быстрый старт</h2>
           <p>Импортируйте видео и укажите, что считать «интересным».</p>
           <ul>
@@ -68,23 +366,7 @@
             <h2>Рекомендованные моменты</h2>
             <span class="badge" id="highlight-count">0 клипов</span>
           </div>
-          <div class="highlights" id="highlights">
-            <div class="highlight-card">
-              <strong>1. Погоня по крыше</strong>
-              <span>00:12:34 — 00:12:58</span>
-              <p>Сильный экшн + музыкальный пик.</p>
-            </div>
-            <div class="highlight-card">
-              <strong>2. Неожиданный твист</strong>
-              <span>00:41:05 — 00:41:32</span>
-              <p>Резкая смена эмоций, идеально для хука.</p>
-            </div>
-            <div class="highlight-card">
-              <strong>3. Диалог с шуткой</strong>
-              <span>01:05:11 — 01:05:33</span>
-              <p>Комедийный момент, высокая досматриваемость.</p>
-            </div>
-          </div>
+          <div class="highlights" id="highlights"></div>
         </section>
       </main>
 
@@ -117,15 +399,15 @@
       <section class="workflow">
         <h2>Как HighlightCut выделяет лучшие моменты</h2>
         <div class="workflow-grid">
-          <div>
+          <div class="panel">
             <h3>1. Анализ эмоций</h3>
             <p>Сканируем диалоги и реакцию персонажей, ищем пики эмоций.</p>
           </div>
-          <div>
+          <div class="panel">
             <h3>2. Поиск экшн-сцен</h3>
             <p>Определяем резкие смены кадров, звуковые всплески и динамику.</p>
           </div>
-          <div>
+          <div class="panel">
             <h3>3. Формат Shorts</h3>
             <p>Автокадрирование под 9:16, тайминг и CTA для вовлечения.</p>
           </div>
@@ -137,6 +419,57 @@
       </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+      const highlightData = [
+        {
+          title: "Погоня по крыше",
+          time: "00:12:34 — 00:12:58",
+          note: "Сильный экшн + музыкальный пик"
+        },
+        {
+          title: "Неожиданный твист",
+          time: "00:41:05 — 00:41:32",
+          note: "Резкая смена эмоций, идеально для хука"
+        },
+        {
+          title: "Диалог с шуткой",
+          time: "01:05:11 — 01:05:33",
+          note: "Комедийный момент, высокая досматриваемость"
+        }
+      ];
+
+      const highlightsContainer = document.getElementById("highlights");
+      const highlightCount = document.getElementById("highlight-count");
+      const generateButton = document.getElementById("generate");
+      const demoButton = document.getElementById("demo-button");
+      const durationRange = document.getElementById("duration");
+      const durationOutput = document.getElementById("duration-output");
+
+      function renderHighlights(items) {
+        highlightsContainer.innerHTML = "";
+        items.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "highlight-card";
+          card.innerHTML = `
+            <strong>${index + 1}. ${item.title}</strong>
+            <span>${item.time}</span>
+            <p>${item.note}</p>
+          `;
+          highlightsContainer.appendChild(card);
+        });
+        highlightCount.textContent = `${items.length} клипа`;
+      }
+
+      function updateDuration() {
+        durationOutput.textContent = `${durationRange.value} сек`;
+      }
+
+      generateButton.addEventListener("click", () => renderHighlights(highlightData));
+      demoButton.addEventListener("click", () => renderHighlights(highlightData));
+      durationRange.addEventListener("input", updateDuration);
+
+      renderHighlights(highlightData);
+      updateDuration();
+    </script>
   </body>
 </html>
